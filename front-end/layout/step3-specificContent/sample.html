@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>less usage sample1</title>
+	
+	<link rel="shortcut icon" type="image/x-icon" href="image/bitbug_favicon.ico">
+	<link rel="stylesheet" href="node_modules/layui-src/dist/css/layui.css"  media="all">
+	<link rel="stylesheet/less" type="text/css" href="style.less">
+	<link rel="stylesheet/less" type="text/css" href="less/common.less">
+	<!-- from cdn -->
+	<script src="//cdnjs.cloudflare.com/ajax/libs/less.js/3.9.0/less.min.js" ></script>
+	
+</head>
+<body class="layui-layout-body">
+	<div class="layui-layout layui-layout-admin">
+		<div class="header layui-header">
+			<div class="layui-logo">路灯智能管理子系统</div>
+			<ul class="layui-nav layui-layout-left">
+			  <li class="layui-nav-item"><a href="#/wacth-central">监控中心</a></li>
+			  <li class="layui-nav-item"><a href="#/analysis">统计分析</a></li>
+			  <li class="layui-nav-item">
+			    <a href="#/deviceManage">设备管理</a>
+			  </li>
+			  <li class="layui-nav-item"><a href="#/energyControll">节能控制</a></li>
+			  <li class="layui-nav-item"><a href="#/warningManage">告警管理</a></li>
+			</ul>
+			<ul class="layui-nav layui-layout-right">
+		      <li class="layui-nav-item">
+		        <a href="javascript:;">
+		          <img src="https://github.githubassets.com/images/spinners/octocat-spinner-64.gif" class="layui-nav-img">
+		          PHY
+		        </a>
+		        <dl class="layui-nav-child">
+		          <dd><a href="">基本资料</a></dd>
+		          <dd><a href="">安全设置</a></dd>
+		        </dl>
+		      </li>
+		      <li class="layui-nav-item"><a href="">功能大厅</a></li>
+		      <li class="layui-nav-item"><a href="javascript:;">退出</a></li>
+		    </ul>
+		</div>
+	</div>
+<!-- 默认是监控中心的内容，随着顶部菜单切换，替换body中的内容 -->
+<div class="body" id="body">
+	<!-- 替换内容： 左边菜单栏+右边内容 -->
+	<div class="left-slide-bar">
+		
+	</div>
+	<div class="right-content">
+		
+	</div>
+</div>
+<div class="footer">版权所有 &copy; 江西航天鄱湖云科技有限公司</div>
+
+<script type="text/javascript" src="node_modules/layui-src/dist/layui.js"></script>
+<script type="text/javascript" src="Util/phyRouter.js"></script><!-- 热力图的引用文件暂时不需要 -->
+<script src="https://webapi.amap.com/maps?v=1.4.10&key=9435051191252553d961eebf2d082173&plugin=AMap.MouseTool"></script>
+
+<!-- <script type="text/javascript" src="mock/heatmapData.js"></script> -->
+<script type="text/javascript">
+	var $;
+	layui.use(['element'],function(){
+		var element = layui.element;
+
+			$ = layui.jquery;
+		// Router========================================================================
+		var R = new phyRouter();
+		R.init();
+		//var res = document.getElementById('body');
+		var res = $('#body');
+
+		 R.route('/', function() {
+		 	//res.style.background = '#ff5155';
+		 	//res.innerHTML = '这是首页，也是默认页面';
+		 	res.load('html/default_central.html');
+		 });
+		 R.route('/analysis', function() {
+		 	//res.style.background = 'orange';
+		 	//res.innerHTML = '这是产品页';
+		 	res.load('html/analysis.html');//depende on JQuery
+		 	//res.innerHTML = '<object type="text/html" data="html/analysis.html"></object>'//is different with the above usage, css does not work;
+		 });
+		 R.route('/deviceManage', function() {
+			 //res.style.background = 'black';
+			 res.load('html/deviceManage.html');//depende on JQuery
+		 });
+		  R.route('/energyControll', function() {
+			 //res.style.background = 'black';
+			 res.load('html/energyControll.html');//depende on JQuery
+		 });
+		   R.route('/warningManage', function() {
+			 //res.style.background = 'black';
+			 res.load('html/warningManage.html');//depende on JQuery
+		 });
+		 // Router=========================================================================
+	})
+
+</script>
+</body>
+</html>

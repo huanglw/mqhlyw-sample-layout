@@ -1,0 +1,104 @@
+// 作为公共样式，供各模板html文件引用
+.left-slide-bar{
+	position:fixed;
+	background: #e7e7e7;
+	top: 60px;
+	bottom: 40px;
+	left: 0;
+	width: 200px;
+}
+
+.right-content{
+	position: absolute;
+	left: 205px;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	background: #f0f3f4;
+	.warning-count-block{
+		
+		padding-top: 15px;
+		padding-left: 15px;
+		padding-bottom: 15px;
+	}
+	.table-block{
+		background:white;
+	}
+	.search-frame{
+		padding: 15px 0;  
+		border: solid #e7e7e7 2px;
+	}
+}
+
+.arrow-right {
+	display:block;
+	float:left;
+	width: 0;
+	height: 0;
+	border-bottom: 10px solid black;
+	border-top: 10px solid transparent;
+	border-left: 10px solid transparent;
+	border-right: 10px solid transparent;
+	transform: rotate(90deg);
+}
+
+// analysis.html style sheet
+.analysis-right-content{
+	background: #f0f3f4;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	.layui-row{
+		height: 100%;
+		.panel1,.panel2,.panel3,.panel4,.panel5{
+			height: 50%; 
+			border-radius: .5em;
+		}
+		.panel1{
+			background: #ff6155;
+		}
+		.panel2{
+			background: #e7e7e7;
+		}
+		.panel3{
+			background: pink;
+		}
+		.panel4{
+			background: #181c28;
+		}
+		.panel5{
+			background: #b7b1b3;
+		}
+	}
+	
+}
+
+// default-central style sheet
+.central-right-content{
+	height: 100%;
+	.layui-row{
+		height: 10%;
+		padding-top: 5px;
+		.amount,.failures,.consumption{
+			height: 100%;
+			color: #e7e7e7;
+		}
+		.amount{
+			background: #ff6155;
+		}
+		.failures{
+			background: #292d39;
+		}
+		.consumption{
+			background: #494d59;
+		}
+	}
+
+	.map-container{
+		height: 90%;
+		border: solid 2px #996633;
+		border-top: transparent;
+	}
+}

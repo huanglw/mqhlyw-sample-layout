@@ -1,0 +1,161 @@
+<!-- 替换内容： 左边菜单栏+右边内容 -->
+<div class="left-slide-bar layui-side layui-bg-black">
+	<div class="layui-side-scroll">
+      <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+      <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+        <li class="layui-nav-item layui-nav-itemed">
+          <a class="" href="javascript:;">策略管理</a>
+          <!-- <dl class="layui-nav-child">
+            <dd><a href="javascript:;">列表一</a></dd>
+            <dd><a href="javascript:;">列表二</a></dd>
+            <dd><a href="javascript:;">列表三</a></dd>
+            <dd><a href="">超链接</a></dd>
+          </dl> -->
+        </li>
+        <li class="layui-nav-item">
+          <a href="javascript:;">策略设置</a>
+          <!-- <dl class="layui-nav-child">
+            <dd><a href="javascript:;">告警策略设置</a></dd>
+            <dd><a href="javascript:;">推送设置</a></dd>
+          </dl> -->
+        </li>
+      </ul>
+    </div>
+</div>
+<div class="right-content">
+	<!-- 内容主体区域 -->
+        <div class="layui-col-md12">
+        <!--中间内容：统计、查询、表格-->
+            <!--统计告警总数-->
+            <div class="warning-count-block">
+                <i class="arrow-right"></i>告警总数：<span id="totalWarning">150</span>
+            </div>
+            <div style="padding: 15px;" class="table-block layui-tab-item layui-show">
+                <!--search frame-->
+                <div class="layui-form-item search-frame">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">关键字</label>
+                        <div class="layui-input-inline">
+                            <input type="tel" id="description" name="keyword" lay-verify='' placeholder='设备名称' autocomplete='off' class='layui-input'>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">开始时间</label>
+                        <div class="layui-input-inline">
+                            <input type="tel" id="startTime" name="startTime" lay-verify='date' placeholder='yyy-MM-dd hh:mm:ss' autocomplete='off' class='layui-input'>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">结束时间</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="endTime" name="endTime" lay-verify='date' placeholder='yyy-MM-dd hh:mm:ss' autocomplete='off' class='layui-input'>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+
+                            <input type="button" id="warning-search" class="layui-btn" value="查询">
+
+                            <input type="button" id="warning-form-validator" class="layui-btn" value="表单验证demo">
+
+                            <input type="button" id="warning-config" class="layui-btn" value="设置">
+
+                    </div>
+                </div>
+
+                <table id="test"></table>
+            </div>
+            <!--tab2-->
+            <div style="padding: 15px;" class="table-block layui-tab-item">
+                这里是tab 2
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+//JavaScript代码区域
+layui.use(['element','table', 'laydate'], function(){
+  var element = layui.element,
+  	$ = layui.jquery,
+  	laydate = layui.laydate;
+
+  	//日期选择器
+    laydate.render({
+        elem: 'input[name="startTime"]',
+        type: 'datetime'
+    });
+    laydate.render({
+        elem: 'input[name="endTime"]',
+        type: 'datetime'
+    });
+
+  //表格渲染
+  var table = layui.table;
+
+    var tableIns = table.render({
+        elem: '#test',
+        url: 'https://easy-mock.com/mock/5c35564ec55255212f1a32c3/lamp/api/warning/getByPage'//'warning/getByPage'//存在跨域问题
+        //自定义请求参数。由于后台接口用的是pageNumber,pageSize所以需要改成一致
+        ,request: {
+            pageName: 'pageNumber',//页码参数名，默认：page
+            limitName: 'pageSize' //每页数据量的参数名，默认：limit
+   		 }
+        ,cols: [[
+            {field:'NO', title: '序号',  type:'numbers'}//自增序号
+            ,{field:'id', title: 'ID', sort: true}
+            ,{field:'createTime', align:'center',  title: '创建时间',sort:true}
+            ,{field:'fixedTime',  align:'center', title: '解决时间', sort: true}
+            ,{field:'duration', align:'center',  title: '持续时长'}
+            ,{field:'status', align:'center', title: '状态', minWidth: 150, sort: true}
+            ,{field:'description', align:'center',  title: '描述'}
+            ,{field:'device_id', align:'center',  title: '设备id', templet: function(d){return d.id;}}
+        ]],
+        page: true
+        ,method: 'POST'
+        ,contentType: 'application/json'
+        ,response: {//自定义数据返回格式
+            statusName: 'code' //规定数据状态的字段名称，默认：code
+            ,statusCode: 200 //规定成功的状态码，默认：0
+            ,msgName: 'message' //规定状态信息的字段名称，默认：msg
+            ,countName: 'total' //规定数据总数的字段名称，默认：count
+            ,dataName: 'data' //规定数据列表的字段名称，默认：data
+        }
+        ,parseData: function(res){
+            console.log("total:"+ res.data.totalElements);
+            //把值赋给上面的统计总数；
+            document.getElementById('totalWarning').innerHTML = res.data.totalElements;
+            return{
+                "code": parseInt(res.code),
+                "total": res.data.totalElements,
+                "data": res.data.content //数据内容
+            }
+        }
+    })
+
+    var searchBtn = document.getElementById("warning-search");
+    searchBtn.onclick = function(){
+        //获取条件参数：
+        var createTimeStart,createTimeEnd,description;
+        if(document.getElementById('startTime').value != "")
+            createTimeStart = document.getElementById('startTime').value.replace(' ','T');
+        if(document.getElementById('startTime').value != "")
+            createTimeEnd = document.getElementById('endTime').value.replace(' ','T');
+        if(document.getElementById('description').value != "")
+            description = document.getElementById('description').value;
+
+        tableIns.reload({
+            //url: 'https://www.layui.com/demo/table/user/', //重新设定数据接口，可以不设置
+            //method: 'POST', //重新修改请求方式，默认是get
+            where: {
+                'createTimeStart': createTimeStart,//createTimeStart,//查询条件1
+                'createTimeEnd': createTimeEnd,//createTimeEnd,//查询条件2
+                'description': description
+            },
+            contentType: 'application/json',
+            page: {
+                curr: 1//重新从第一页开始
+            }
+        })
+    }
+});
+</script>

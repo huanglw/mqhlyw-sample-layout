@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>less usage sample1</title>
+	
+	<link rel="shortcut icon" type="image/x-icon" href="image/bitbug_favicon.ico">
+	<link rel="stylesheet" href="node_modules/layui-src/dist/css/layui.css"  media="all">
+	<link rel="stylesheet/less" type="text/css" href="style.less">
+	<!-- from cdn -->
+	<script src="//cdnjs.cloudflare.com/ajax/libs/less.js/3.9.0/less.min.js" ></script>
+	
+</head>
+<body>
+<div class="header">
+	<ul class="layui-nav">
+	  <li class="layui-nav-item"><a id="logo" href="javascript:;">路灯智能监控子系统</a></li>
+	  <li class="layui-nav-item"><a href="javascript:;">监控中心</a></li>
+	  <li class="layui-nav-item"><a href="javascript:;">统计分析</a></li>
+	  <li class="layui-nav-item">
+	    <a href="javascript:;">设备管理</a>
+	  </li>
+	  <li class="layui-nav-item"><a href="javascript:;">节能控制</a></li>
+	  <li class="layui-nav-item"><a href="javascript:;">告警管理</a></li>
+	</ul>
+</div>
+<div class="body"></div>
+<div class="footer">版权所有 &copy; 江西航天鄱湖云科技有限公司</div>
+
+<script type="text/javascript" src="node_modules/layui-src/dist/layui.js"></script>
+<script type="text/javascript">
+	layui.use('element',function(){
+		var element = layui.element;
+	})
+</script>
+</body>
+</html>
